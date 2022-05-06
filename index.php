@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,9 +8,12 @@
     <title>Hangman</title>
     <link rel="stylesheet" href="hangman.css">
 </head>
+
 <body>
     <h1>Hangman lets gooo!!!</h1>
-    <p><a href="registrerOrd.php" class="zoom">Registrer ord til å bli brukt i spillet</a> <br>
-    <a href="hangman.php" class="zoom">Spill Hangman</a></p>
+    <p class="mainen"><a href="registrerOrd.php" class="zoom">Registrer ord til å bli brukt i spillet</a> <br>
+        <a href="hangman.php" class="zoom">Spill Hangman</a>
+    </p>
 </body>
+
 </html>

@@ -1,63 +1,77 @@
 h1 {
-    text-align: center;
-    background-color: crimson;
+  text-align: center;
+  background-color: crimson;
 }
 div {
-    font-size: 60px;
+  font-size: 60px;
 }
-article {
-    background-color: brown;
-    color: white;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-    display: block;
+article a {
+  background-color: brown;
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
 }
-article:hover {
-    background-color: #333;
+article a:hover {
+  background-color: #333;
 }
 .zoom {
-    padding: 30px;
-    transition: transform .2s; /* Animation */
-    width: 300px;
-    height: 200px;
-    margin: 0 auto;
-} 
+  padding: 30px;
+  transition: transform 0.2s; /* Animation */
+  width: 300px;
+  height: 200px;
+  margin: 0 auto;
+}
 .zoom:hover {
-    transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  transform: scale(
+    1.5
+  ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 form {
-    margin: 10vh;
-    text-align: center;
+  margin: 10vh;
+  text-align: center;
 }
-p {
-    background-image: url("https://preview.redd.it/j00iyig1iad31.jpg?auto=webp&s=4eb83982c5ff7e850da889af84182a108ca4c4eb");
-    background-size: 100%;
-    background-position: 0px -100px;
-    height: 87vh;
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    position: relative;
+.mainen {
+  background-image: url("https://preview.redd.it/j00iyig1iad31.jpg?auto=webp&s=4eb83982c5ff7e850da889af84182a108ca4c4eb");
+  background-size: 100%;
+  background-position: 0px -100px;
+  height: 87vh;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  position: relative;
 }
 p a {
-    color: white;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-    display: block;
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
 }
 p a:hover {
-    background-color: #333;
+  background-color: #333;
 }
 body {
-    height: 100%;
-    overflow-y: hidden;
- }
- .ord {
-    padding: 5px;
-    width: 100%;
-    height: 200px;
-    margin: 0 auto;
- }
+  height: 100%;
+  overflow-y: hidden;
+}
+.ord {
+  padding: 5px;
+  width: 100%;
+  height: 200px;
+  margin: 0 auto;
+}
+.bakgrunn {
+  background-image: url("https://preview.redd.it/j00iyig1iad31.jpg?auto=webp&s=4eb83982c5ff7e850da889af84182a108ca4c4eb");
+  background-size: 100%;
+  background-position: 0px -100px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  color: white;
+}
+.center {
+  text-align: center;
+}

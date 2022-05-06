@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="hangman.css">
 </head>
 
-<body>
+<body class="bakgrunn">
     <h1>Hangman</h1>
     <?php
     include("db-tilkobling.php");
@@ -18,9 +18,12 @@
     $sqlResultat = mysqli_query($db, $sqlSetning) or die("Ikke mulig å hente data");
     $rad = mysqli_fetch_array($sqlResultat);
 
-    if (isset($_COOKIE["ord"])) {
+    if (isset($_COOKIE["ord"]))
+    {
         $ord = $_COOKIE["ord"];
-    } else {
+    }
+    else
+    {
         $ord = $rad["ord"];
     }
 
@@ -29,23 +32,32 @@
     error_reporting(E_ERROR | E_PARSE);
     $startOrd = $ord;
 
-    if (isset($_COOKIE["skjulStartOrd"])) {
+    if (isset($_COOKIE["skjulStartOrd"]))
+    {
         $skjulStartOrd = $_COOKIE["skjulStartOrd"];
-    } else {
+    }
+    else
+    {
         $skjulStartOrd = substr_replace($startOrd, str_repeat("-", strlen($startOrd)), 0, strlen($startOrd));
     }
 
-    if (isset($_COOKIE["bruktBokstav"])) {
+    if (isset($_COOKIE["bruktBokstav"]))
+    {
         $bruktBokstav = $_COOKIE["bruktBokstav"];
-    } else {
+    }
+    else
+    {
         $bruktBokstav = "";
     }
 
 
-    if (isset($_COOKIE["forsok"])) {
+    if (isset($_COOKIE["forsok"]))
+    {
         $forsøk = $_COOKIE["forsok"];
         $start = false;
-    } else {
+    }
+    else
+    {
         $forsøk = strlen($startOrd) * 2;
         $forsøk++;
         $start = true;
@@ -53,18 +65,24 @@
 
     $gjettetBokstav = strtolower($_POST["gjettetBokstav"]);
 
-    if ($start) {
+    if ($start)
+    {
         $bruktBokstav = $gjettetBokstav;
-    } else {
+    }
+    else
+    {
         $bruktBokstav .= $gjettetBokstav . ", ";
     }
 
     setcookie("bruktBokstav", "$bruktBokstav");
 
     $pos = strpos($startOrd, $gjettetBokstav);
-    if ($pos !== false) {
-        for ($i = 0; $i < strlen($startOrd); $i++) {
-            if ($startOrd[$i] == $gjettetBokstav) {
+    if ($pos !== false)
+    {
+        for ($i = 0; $i < strlen($startOrd); $i++)
+        {
+            if ($startOrd[$i] == $gjettetBokstav)
+            {
 
                 $skjulStartOrd[$i] = $gjettetBokstav;
                 setcookie("skjulStartOrd", "$skjulStartOrd");
@@ -85,14 +103,17 @@
 
     $pos1 = strpos($skjulStartOrd, "-");
 
-    if ($pos1 === false && !$start) {
+    if ($pos1 === false && !$start)
+    {
         echo "<h1><b>GRATULERER DU VANT!!</b></h1>";
         slett();
-        echo "<a href='hangman.php'><article class='zoom'>Klikk for å spille igjen</article></a>";
-    } else if ($forsøk == 0) {
+        echo "<article><a href='hangman.php' class='zoom'>Klikk for å spille igjen</a></article>";
+    }
+    else if ($forsøk == 0)
+    {
         echo "<h1><b>GAME OVER!</b></h1>";
         slett();
-        echo "<a href='hangman.php'><article class='zoom'>Klikk for å spille igjen</article></a>";
+        echo "<article><a href='hangman.php' class='zoom'>Klikk for å spille igjen</a></article>";
     }
 
     function slett()

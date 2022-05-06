@@ -1,10 +1,7 @@
 <?php
-$host="localhost";
-$user="root";
-$password="";
-$database="hangman";
+$host = "localhost";
+$user = "root";
+$password = "";
+$database = "hangman";
 
-$db=mysqli_connect($host,$user,$password,$database) or die ("ikke kontakt med database-server");
-
-
-?>
+$db = mysqli_connect($host, $user, $password, $database) or die("ikke kontakt med database-server");
