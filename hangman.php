@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" type="image" href="https://wallpaperaccess.com/full/2811067.jpg">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +31,7 @@
     setcookie("ord", "$ord");
 
     error_reporting(E_ERROR | E_PARSE);
-    $startOrd = $ord;
+    $startOrd = html_entity_decode($ord);
 
     if (isset($_COOKIE["skjulStartOrd"]))
     {
@@ -38,7 +39,7 @@
     }
     else
     {
-        $skjulStartOrd = substr_replace($startOrd, str_repeat("-", strlen($startOrd)), 0, strlen($startOrd));
+        $skjulStartOrd = substr_replace($startOrd, str_repeat("-", mb_strlen($startOrd)), 0, strlen($startOrd));
     }
 
     if (isset($_COOKIE["bruktBokstav"]))
@@ -58,12 +59,14 @@
     }
     else
     {
-        $forsøk = strlen($startOrd) * 2;
+        $forsøk = mb_strlen($startOrd) * 2;
         $forsøk++;
         $start = true;
     }
 
-    $gjettetBokstav = strtolower($_POST["gjettetBokstav"]);
+    $gjettetBokstav1 = $_POST["gjettetBokstav"];
+    $gjettetBokstav2 = strtolower(htmlentities($gjettetBokstav1));
+    $gjettetBokstav = html_entity_decode($gjettetBokstav2);
 
     if ($start)
     {
@@ -76,14 +79,13 @@
 
     setcookie("bruktBokstav", "$bruktBokstav");
 
-    $pos = strpos($startOrd, $gjettetBokstav);
+    $pos = mb_strpos($startOrd, $gjettetBokstav);
     if ($pos !== false)
     {
-        for ($i = 0; $i < strlen($startOrd); $i++)
+        for ($i = 0; $i < mb_strlen($startOrd); $i++)
         {
             if ($startOrd[$i] == $gjettetBokstav)
             {
-
                 $skjulStartOrd[$i] = $gjettetBokstav;
                 setcookie("skjulStartOrd", "$skjulStartOrd");
             }
@@ -92,7 +94,7 @@
     $forsøk--;
     setcookie("forsok", $forsøk);
 
-    $melding = "<form method='post' id='form'>
+    $melding = "<form method='post' id='form'> 
         <div class='ord'>Gjett ordet; <br> $skjulStartOrd</div> <br>
         Brukte bokstaver: $bruktBokstav <br>
         Du har $forsøk forsøk igjen <br>
@@ -101,7 +103,7 @@
         </form>";
     echo $melding;
 
-    $pos1 = strpos($skjulStartOrd, "-");
+    $pos1 = mb_strpos($skjulStartOrd, "-");
 
     if ($pos1 === false && !$start)
     {

@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <link rel="icon" type="image" href="https://wallpaperaccess.com/full/2811067.jpg">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,11 +21,16 @@
         <?php
         if (isset($_POST["registrer"]))
         {
-            $ord = strtolower($_POST["ord"]);
+            $ord = $_POST["ord"];
+            $ord1 = mb_strtolower($ord);
 
-            if (!ctype_alpha($ord))
+            if (preg_match('~[0-9]+~', $ord1))
             {
-                echo "Registrer bare ett ord som kun består av bokstaver";
+                echo "Ordet kan bare bestå av bokstaver";
+            }
+            else if (strpos($ord1, " "))
+            {
+                echo "Registrer ett otd om gangen";
             }
             else if (!$ord)
             {
@@ -34,10 +40,10 @@
             {
                 include("db-tilkobling.php");
 
-                $sqlSetning = "INSERT INTO startord VALUES('$ord');";
+                $sqlSetning = "INSERT INTO startord VALUES('$ord1');";
                 mysqli_query($db, $sqlSetning) or die("Ikke mulig å registrere i databasen <br><a href=\"hangman.php\">Spill Hangman</a>");
 
-                echo "Du har registrert $ord til databasen";
+                echo "Du har registrert $ord1 til databasen";
             }
         }
         ?>
