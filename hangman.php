@@ -1,3 +1,6 @@
+<?php
+header('Content-Type: text/html; charset=utf-8');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,6 +18,7 @@
     <?php
     include("db-tilkobling.php");
 
+
     $sqlSetning = "SELECT * FROM startord ORDER BY RAND() LIMIT 1;";
     $sqlResultat = mysqli_query($db, $sqlSetning) or die("Ikke mulig å hente data");
     $rad = mysqli_fetch_array($sqlResultat);
@@ -27,11 +31,11 @@
     {
         $ord = $rad["ord"];
     }
-
+    $ord = preg_split('//u', $ord, -1, PREG_SPLIT_NO_EMPTY);
     setcookie("ord", "$ord");
-
+    
     error_reporting(E_ERROR | E_PARSE);
-    $startOrd = html_entity_decode($ord);
+    $startOrd = implode("", $ord);
 
     if (isset($_COOKIE["skjulStartOrd"]))
     {
@@ -82,19 +86,25 @@
     $pos = mb_strpos($startOrd, $gjettetBokstav);
     if ($pos !== false)
     {
-        for ($i = 0; $i < mb_strlen($startOrd); $i++)
+        $i = 0;
+        $skjulOrdArray = preg_split('//u', $skjulStartOrd, -1, PREG_SPLIT_NO_EMPTY);
+        
+        foreach ($ord as $bokstav)
         {
-            if ($startOrd[$i] == $gjettetBokstav)
+            if ($bokstav == $gjettetBokstav)
             {
-                $skjulStartOrd[$i] = $gjettetBokstav;
-                setcookie("skjulStartOrd", "$skjulStartOrd");
+                echo "hhoi";
+                $skjulOrdArray[$i] = $gjettetBokstav;
             }
+            $i++;
         }
+        $skjulStartOrd = implode("", $skjulOrdArray);
+        setcookie("skjulStartOrd", "$skjulStartOrd");
     }
     $forsøk--;
     setcookie("forsok", $forsøk);
 
-    $melding = "<form method='post' id='form'> 
+    $melding = "<form method='post' id='form'> $startord <br>
         <div class='ord'>Gjett ordet; <br> $skjulStartOrd</div> <br>
         Brukte bokstaver: $bruktBokstav <br>
         Du har $forsøk forsøk igjen <br>
