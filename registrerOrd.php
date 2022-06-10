@@ -30,7 +30,7 @@
             }
             else if (strpos($ord1, " "))
             {
-                echo "Registrer ett otd om gangen";
+                echo "Registrer ett ord om gangen";
             }
             else if (!$ord)
             {
@@ -40,10 +40,10 @@
             {
                 include("db-tilkobling.php");
 
-                $sqlSetning = "INSERT INTO startord VALUES('$ord1');";
-                mysqli_query($db, $sqlSetning) or die("Ikke mulig å registrere i databasen <br><a href=\"hangman.php\">Spill Hangman</a>");
-
-                echo "Du har registrert $ord1 til databasen";
+                $stmt = $db->prepare('INSERT INTO startord VALUES (?)');
+                $stmt->bind_param('s', $ord1);
+                $stmt->execute();
+                echo "hei";
             }
         }
         ?>
