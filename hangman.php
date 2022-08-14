@@ -18,6 +18,64 @@ header('Content-Type: text/html; charset=utf-8');
     <?php
     include("db-tilkobling.php");
 
+    $heng = [
+        "<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+---+<br>
+            |   |<br>
+                |<br>
+                |<br>
+                |<br>
+                |<br>
+            =========<br></pre>",
+
+        "<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+---+<br>
+            |   |<br>
+            O   |<br>
+                |<br>
+                |<br>
+                |<br>
+            =========<br></pre>",
+
+        "<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+---+<br>
+            |   |<br>
+            O   |<br>
+            |   |<br>
+                |<br>
+                |<br>
+            =========<br></pre>",
+
+        "<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +---+<br>
+             |   |<br>
+             O   |<br>
+            /|   |<br>
+                 |<br>
+                 |<br>
+             =========<br></pre>",
+
+        "<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +---+<br>
+             |   |<br>
+             O   |<br>
+            /|\\  |<br>
+                 |<br>
+                 |<br>
+             =========<br></pre>",
+
+        "<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +---+<br>
+             |   |<br>
+             O   |<br>
+            /|\\  |<br>
+            /    |<br>
+                 |<br>
+             =========<br></pre>",
+
+        "<pre>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +---+<br>
+             |   |<br>
+             O   |<br>
+            /|\\  |<br>
+            / \\  |<br>
+                 |<br>
+             =========<br></pre>"
+    ];
+
 
     $sqlSetning = "SELECT * FROM startord ORDER BY RAND() LIMIT 1;";
     $sqlResultat = mysqli_query($db, $sqlSetning) or die("Ikke mulig å hente data");
@@ -31,9 +89,9 @@ header('Content-Type: text/html; charset=utf-8');
     {
         $ord = $rad["ord"];
     }
-    $ord = preg_split('//u', $ord, -1, PREG_SPLIT_NO_EMPTY);
     setcookie("ord", "$ord");
-    
+    $ord = preg_split('//u', $ord, -1, PREG_SPLIT_NO_EMPTY);
+
     error_reporting(E_ERROR | E_PARSE);
     $startOrd = implode("", $ord);
 
@@ -63,7 +121,7 @@ header('Content-Type: text/html; charset=utf-8');
     }
     else
     {
-        $forsøk = mb_strlen($startOrd) * 2;
+        $forsøk = 16;
         $forsøk++;
         $start = true;
     }
@@ -88,12 +146,11 @@ header('Content-Type: text/html; charset=utf-8');
     {
         $i = 0;
         $skjulOrdArray = preg_split('//u', $skjulStartOrd, -1, PREG_SPLIT_NO_EMPTY);
-        
+
         foreach ($ord as $bokstav)
         {
             if ($bokstav == $gjettetBokstav)
             {
-                echo "hhoi";
                 $skjulOrdArray[$i] = $gjettetBokstav;
             }
             $i++;
@@ -104,29 +161,61 @@ header('Content-Type: text/html; charset=utf-8');
     $forsøk--;
     setcookie("forsok", $forsøk);
 
-    $melding = "<form method='post' id='form'> $startord <br>
+    if ($forsøk == 6)
+    {
+        echo $heng[0];
+    }
+    else if ($forsøk == 5)
+    {
+        echo $heng[1];
+    }
+    else if ($forsøk == 4)
+    {
+        echo $heng[2];
+    }
+    else if ($forsøk == 3)
+    {
+        echo $heng[3];
+    }
+    else if ($forsøk == 2)
+    {
+        echo $heng[4];
+    }
+    else if ($forsøk == 1)
+    {
+        echo $heng[5];
+    }
+    else if ($forsøk == 0)
+    {
+        echo $heng[6];
+    }
+
+    $melding = "<form method='post' id='form'>
         <div class='ord'>Gjett ordet; <br> $skjulStartOrd</div> <br>
         Brukte bokstaver: $bruktBokstav <br>
         Du har $forsøk forsøk igjen <br>
         Ditt neste gjett? <input type='text' maxlength='1' name='gjettetBokstav' required> <br>
         <input type='submit' value='Gjett' name='gjettKnapp'>
         </form>";
-    echo $melding;
 
     $pos1 = mb_strpos($skjulStartOrd, "-");
 
     if ($pos1 === false && !$start)
     {
+        $melding = "";
         echo "<h1><b>GRATULERER DU VANT!!</b></h1>";
         slett();
         echo "<article><a href='hangman.php' class='zoom'>Klikk for å spille igjen</a></article>";
     }
     else if ($forsøk == 0)
     {
+        $melding = "";
         echo "<h1><b>GAME OVER!</b></h1>";
         slett();
         echo "<article><a href='hangman.php' class='zoom'>Klikk for å spille igjen</a></article>";
     }
+
+    echo $melding;
 
     function slett()
     {
